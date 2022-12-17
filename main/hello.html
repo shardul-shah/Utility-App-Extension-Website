@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+        <script src="../scripts/popup.js"></script>
+  </head>
+  <body>
+    <h1>Hello Extensions</h1>
+    <button id="listToCommas"> List -> Commas
+    </button>
+    <!-- textarea not expanding, might be bugged -->
+    <input id="listInput" style="white-space: pre-wrap;" type="textarea" placeholder="Copy list here.">
+    </input>
+
+    <br>
+    <br>
+    <button id="genRandomStr"> Generate a random string for your desired length:
+    </button>
+    <input id="desiredLenInput" style="white-space: pre-wrap;" type="text" placeholder="20">
+
+    <br>
+    <form id="genRandomStrForm">
+      <input type="checkbox" id="symbols" name="symbols" value="symbols">
+      <label for="symbols"> Exclude Symbols</label>
+      <br>
+      <input type="checkbox" id="numbers" name="numbers" value="numbers">
+      <label for="numbers"> Exclude Numbers</label>
+      <br>
+      <input type="checkbox" id="upperLetters" name="uppercase letters" value="upperLetters">
+      <label for="letters"> Exclude Uppercase Letters</label>
+      <br>
+      <input type="checkbox" id="lowerLetters" name="lowercase letters" value="lowerLetters">
+      <label for="letters"> Exclude Lowercase Letters</label>
+    </form>
+
+    <br>
+    <input id="SINInput" type="text" placeholder="123456789">
+    </input>
+    <button id="validateSIN"> Validate SIN #
+    </button>
+
+    <br>
+    <br>
+    <button id="generateRandomSIN">
+      Generate Random SIN
+    </button>
+
+    <br>
+    <br>
+
+    <button id="generateRandomColor">
+      Generate Random Colour
+    </button>
+    <!-- put button to generate random hex code + show color below, change below styling if needed -->
+    <div id="randomColor">
+    </div>
+
+    <br>
+
+    <input id="IPV4Input" type="text" placeholder="0.11.222.255">
+    </input>
+    <button id="validateIPV4">
+      Validate IPV4 Address
+    </button>
+
+    <!-- todo: remove alerts, change to HTML/CSS; alerts are annoying and not the most user friendly -->
+  </body>
+</html>
