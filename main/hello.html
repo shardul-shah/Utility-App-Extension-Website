@@ -5,6 +5,17 @@
   </head>
   <body>
     <h1>Hello Extensions</h1>
+    <button id="wordCount"> 
+      Count Words
+    </button>
+    <!-- textarea not expanding, might be bugged -->
+    <input id="wordsInput" style="white-space: pre-wrap;" type="textarea" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.">
+
+    Optionally Exclude Words With Length Upto:
+    <input id="wordLenExclusion" style="white-space: pre-wrap;" type="number" placeholder="0">
+
+    <br>
+    <br>
     <button id="listToCommas"> List -> Commas
     </button>
     <!-- textarea not expanding, might be bugged -->
@@ -13,7 +24,8 @@
 
     <br>
     <br>
-    <button id="genRandomStr"> Generate a random string for your desired length:
+    <button id="genRandomStr"> 
+      Generate a random string for your desired length:
     </button>
     <input id="desiredLenInput" style="white-space: pre-wrap;" type="text" placeholder="20">
 
@@ -35,7 +47,8 @@
     <br>
     <input id="SINInput" type="text" placeholder="123456789">
     </input>
-    <button id="validateSIN"> Validate SIN #
+    <button id="validateSIN"> 
+      Validate SIN #
     </button>
 
     <br>

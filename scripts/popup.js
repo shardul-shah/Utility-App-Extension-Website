@@ -1,13 +1,13 @@
-/*
+
 // // Utilities List // //
 
 // List -> Commas [✔️]
 
-// Word Count 
+// Word Count [almost done]
 
 // Random string generator [✔️]
 
-// IPV4 validator/generator [✔️]s
+// IPV4 validator/generator [✔️]
 
 // IPV6 validator/generator 
 
@@ -26,7 +26,7 @@
 // Weather 
 
 // Google Search 
-*/
+
 
 // Triggers when all DOM elements are loaded
 document.addEventListener('DOMContentLoaded', function(event) 
@@ -113,9 +113,9 @@ document.addEventListener('DOMContentLoaded', function(event)
    document.querySelector('#generateRandomColor').addEventListener('click', async function(event2) 
   {
   	const hexCode = generateRandomHexCode();
-  	copyAndNotify(hexCode, "Random colour's hex code generated and copied! Code: " + hexCode);
   	document.querySelector('#randomColor').style.backgroundColor = hexCode;
   	document.querySelector('#randomColor').style.height = "3em";
+  	await copyAndNotify(hexCode, "Random colour's hex code generated and copied! Code: " + hexCode);
   });
 
   document.querySelector('#validateIPV4').addEventListener('click', async function(event2) 
@@ -132,6 +132,8 @@ document.addEventListener('DOMContentLoaded', function(event)
   	alert(IPV4ValidationOutput);
   	console.log(isIPV4Valid(input));
   });   
+
+  console.log(countWords("test test");
 });
 
 const copyAndNotify = async (output, outputMsg) => 
@@ -359,7 +361,7 @@ const isIPV4Valid = (address) =>
 
 	const parts = String(address).split(".");
 
-	if (parts.length != 4)
+	if (parts.length !== 4)
 	{
 		return false;
 	}
@@ -378,7 +380,15 @@ const isIPV4Valid = (address) =>
 
 const isIPV6Valid = (address) => 
 {
-	// code here
+	// TODO: code here
 
 	return false;
+}
+
+const countWords = (words, exclusionMaxLen = 0) =>
+{
+	// possible TODO: return # of characters too from this function, and display
+	let wordsArr = words.split(/\s+/);
+	console.log(wordsArr);
+	return (wordsArr.filter(word => word.length > exclusionMaxLen)).length;
 }
