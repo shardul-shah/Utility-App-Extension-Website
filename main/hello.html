@@ -2,6 +2,7 @@
 <html>
   <head>
         <script src="../scripts/popup.js"></script>
+        <link rel="stylesheet" href="./index.css">
   </head>
   <body>
     <h1>Hello Extensions</h1>
@@ -14,7 +15,9 @@
     Optionally Exclude Words With Length Upto:
     <input id="wordLenExclusion" style="white-space: pre-wrap;" type="number" placeholder="0">
 
-    <br>
+    <div id="wordCountOutput">
+    </div>
+
     <br>
     <button id="listToCommas"> List -> Commas
     </button>
@@ -73,6 +76,15 @@
     </input>
     <button id="validateIPV4">
       Validate IPV4 Address
+    </button>
+
+    <br>
+    <br>
+
+    <input id="searchInput" type="text" placeholder="weather">
+    </input>
+    <button id="search">
+      Google Search
     </button>
 
     <!-- todo: remove alerts, change to HTML/CSS; alerts are annoying and not the most user friendly -->

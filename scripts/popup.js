@@ -3,13 +3,11 @@
 
 // List -> Commas [✔️]
 
-// Word Count [almost done]
+// Word Count [✔️]
 
 // Random string generator [✔️]
 
 // IPV4 validator/generator [✔️]
-
-// IPV6 validator/generator 
 
 // Random SIN generator [✔️]
 
@@ -17,15 +15,19 @@
 
 // Random hex color generator [✔️]
 
+// Google Search [✔️]
+
 // Random font picker 
 
 // Unit Converter 
 
 // Time Zone converter / detector 
 
+// IPV6 validator/generator 
+
 // Weather 
 
-// Google Search 
+// Remove Duplicates From CSV/New line SV list (e.g. used for Spotify) 
 
 
 // Triggers when all DOM elements are loaded
@@ -33,19 +35,16 @@ document.addEventListener('DOMContentLoaded', function(event)
 {
 	document.querySelector('#listToCommas').addEventListener('click', async function(event2) 
   {
-  	let list = document.querySelector('#listInput').value;
-  	if (list == null || list == "")
+  	let list = validateAndGetInput("listInput", "Please enter a space or newline separated list to continue.");
+  	if (list != null)
   	{
-  		alert("Please enter a space or newline separated list to continue.");
-  		return;
+  		await convert(list);
   	}
-   	await convert(list);
   });
 
    document.querySelector('#genRandomStr').addEventListener('click', async function(event2) 
    {
   	let desiredLength = document.querySelector('#desiredLenInput').value;
-
   	if ((!desiredLength == "" || !desiredLength == null) && (isNaN(desiredLength) || +desiredLength <= 0))
   	{
   		console.error('Error message to display...');
@@ -91,17 +90,13 @@ document.addEventListener('DOMContentLoaded', function(event)
 
   document.querySelector('#validateSIN').addEventListener('click', function(event2) 
   {
-  	let SIN = document.querySelector('#SINInput').value;	
-  	console.log(SIN);
-  	if (SIN == null || SIN == "")
+  	let SIN = validateAndGetInput("SINInput", "Please enter a SIN to continue.");
+  	if (SIN != null)
   	{
-  		alert("Please enter a SIN to continue.");
-  		return;
+  		let sinValidationOutput = "SIN is " + (isValidSIN(SIN) ? "valid" : "invalid") + ".";
+  		alert(sinValidationOutput);
+  		console.log(isValidSIN(SIN));
   	}
-
-  	let sinValidationOutput = "SIN is " + (isValidSIN(SIN) ? "valid" : "invalid") + ".";
-  	alert(sinValidationOutput);
-  	console.log(isValidSIN(SIN));
   });
 
   document.querySelector('#generateRandomSIN').addEventListener('click', async function(event2) 
@@ -118,22 +113,43 @@ document.addEventListener('DOMContentLoaded', function(event)
   	await copyAndNotify(hexCode, "Random colour's hex code generated and copied! Code: " + hexCode);
   });
 
-  document.querySelector('#validateIPV4').addEventListener('click', async function(event2) 
+  document.querySelector('#validateIPV4').addEventListener('click', function(event2) 
   {
-  	let input = document.querySelector('#IPV4Input').value;	
-  	console.log(input);
-  	if (input == null || input == "")
+  	let input = validateAndGetInput("IPV4Input", "Please enter an input to continue.");
+  	if (input != null)
   	{
-  		alert("Please enter an input to continue.");
-  		return;
+	  	let validity = isIPV4Valid(input);
+	  	let IPV4ValidationOutput = "IP address is " + (validity ? "valid" : "invalid") + ".";
+	  	alert(IPV4ValidationOutput);
+	  	console.log(validity);	
   	}
-
-  	let IPV4ValidationOutput = "IP address is " + (isIPV4Valid(input) ? "valid" : "invalid") + ".";
-  	alert(IPV4ValidationOutput);
-  	console.log(isIPV4Valid(input));
   });   
 
-  console.log(countWords("test test");
+  document.querySelector('#wordCount').addEventListener('click', function(event2) 
+  {	
+  	let input = validateAndGetInput("wordsInput", "Please enter an input to continue.");
+  	let exclusionMaxLen = document.querySelector('#wordLenExclusion').value;
+  	exclusionMaxLen = exclusionMaxLen == null || exclusionMaxLen == "" ? 0 : exclusionMaxLen;
+  	if (input != null)
+  	{
+  		let wordCount = countWords(input, exclusionMaxLen);
+	  	console.log(wordCount);
+	  	let wordCountOutput = "Input is " + wordCount + " words long."
+	  	alert(wordCountOutput);
+	  	let outputDiv = document.querySelector('#wordCountOutput');
+	  	outputDiv.innerHTML = wordCountOutput;
+  	}
+  });
+
+  document.querySelector('#search').addEventListener('click', async function(event2)
+  {
+
+  	let input = validateAndGetInput("searchInput", "Please enter an input to continue.");
+  	if (input != null)
+  	{
+  		await searchInternet(input);
+  	}
+  });
 });
 
 const copyAndNotify = async (output, outputMsg) => 
@@ -378,17 +394,41 @@ const isIPV4Valid = (address) =>
 	return true;
 }
 
-const isIPV6Valid = (address) => 
-{
-	// TODO: code here
-
-	return false;
-}
-
 const countWords = (words, exclusionMaxLen = 0) =>
 {
 	// possible TODO: return # of characters too from this function, and display
 	let wordsArr = words.split(/\s+/);
 	console.log(wordsArr);
 	return (wordsArr.filter(word => word.length > exclusionMaxLen)).length;
+}
+
+const searchInternet = async (input) => 
+{
+	// uses Google search engine
+	window.open("http://google.com/search?q=" + input);
+}
+
+const validateAndGetInput = (inputId, errMsg) =>
+{
+	let input = document.querySelector("#" + inputId).value;
+	console.log(input);
+	if (input == null || input == "")
+	{
+  	alert(errMsg);
+  	return;
+  }
+
+  return input;
+}
+
+const removeDuplicates = () =>
+{
+		// TODO: code here
+}
+
+const isIPV6Valid = (address) => 
+{
+	// TODO: code here
+
+	return false;
 }
