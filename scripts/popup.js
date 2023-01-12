@@ -17,17 +17,18 @@
 
 // Google Search [✔️]
 
+// Time Zone converter + detector [in progress]
+
 // Random font picker 
 
-// Unit Converter 
+// Remove Duplicates From CSV/New line SV list (e.g. used for Spotify)
 
-// Time Zone converter / detector 
+// Unit Converter 
 
 // IPV6 validator/generator 
 
 // Weather 
 
-// Remove Duplicates From CSV/New line SV list (e.g. used for Spotify) 
 
 
 // Triggers when all DOM elements are loaded
@@ -431,4 +432,16 @@ const isIPV6Valid = (address) =>
 	// TODO: code here
 
 	return false;
+}
+
+const getUserTimezone = () => 
+{
+	// returns string
+	return console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
+}
+
+const getAllTimeZones = () => 
+{
+	// returns array of strings
+	return Intl.supportedValuesOf('timeZone');
 }
