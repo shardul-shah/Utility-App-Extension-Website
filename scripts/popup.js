@@ -19,9 +19,11 @@
 
 // Time Zone converter + detector [in progress]
 
-// Random font picker 
-
 // Remove Duplicates From CSV/New line SV list (e.g. used for Spotify)
+
+// Hard To Do/Will Take More Thinking/Time/Etc.:
+
+// Random font picker 
 
 // Unit Converter 
 
@@ -30,10 +32,24 @@
 // Weather 
 
 
-
 // Triggers when all DOM elements are loaded
 document.addEventListener('DOMContentLoaded', function(event) 
 {
+	initTimezoneData();
+
+	document.querySelector('#convertTZ').addEventListener('click', async function(event2) 
+  {
+  	// error handling here : ...
+
+  	let from = validateAndGetInput("fromInputTimezone", "Please ensure a valid from timezone is selected.");
+  	let to = validateAndGetInput("toInputTimezone", "Please ensure a valid to timezone is selected.");
+  	let time = validateAndGetInput("inputDateTime", "Please ensure a valid to timezone is selected.");
+  	let convertedTime = convertTimeZones(from, to, time);
+  	let output = displayDateTime(convertedTime, to);
+  	console.log(convertedTime, output);
+
+  });
+
 	document.querySelector('#listToCommas').addEventListener('click', async function(event2) 
   {
   	let list = validateAndGetInput("listInput", "Please enter a space or newline separated list to continue.");
@@ -144,7 +160,6 @@ document.addEventListener('DOMContentLoaded', function(event)
 
   document.querySelector('#search').addEventListener('click', async function(event2)
   {
-
   	let input = validateAndGetInput("searchInput", "Please enter an input to continue.");
   	if (input != null)
   	{
@@ -424,7 +439,10 @@ const validateAndGetInput = (inputId, errMsg) =>
 
 const removeDuplicates = () =>
 {
-		// TODO: code here
+	// TODO: code here
+
+	return "";
+
 }
 
 const isIPV6Valid = (address) => 
@@ -437,11 +455,100 @@ const isIPV6Valid = (address) =>
 const getUserTimezone = () => 
 {
 	// returns string
-	return console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
+	return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
 
 const getAllTimeZones = () => 
 {
 	// returns array of strings
 	return Intl.supportedValuesOf('timeZone');
+}
+
+const initTimezoneData = () =>
+{	
+	// init neccesary variables
+	const userTimezone = getUserTimezone();
+	const utcTimezone = "Europe/London"; // known fact
+	const timezones = getAllTimeZones();
+	let listElements = [];
+	let fromInputTzBox = document.querySelector("#fromInputTimezone");
+	let toInputTzBox = document.querySelector("#toInputTimezone");
+	listElements.push(document.querySelector('#fromTimezones'));
+	listElements.push(document.querySelector('#toTimezones'));
+
+	// set user's default time zone
+	document.querySelector("#userTimezone").innerHTML = userTimezone;
+
+	// set dault datetime
+	setDefaultInputDatetime();
+
+	// set up timezone dropdowns, with default options
+	for (let element of listElements)
+	{
+		for (let timezone of timezones)
+		{
+			let newOption = document.createElement("option");
+			newOption.textContent = timezone;
+			newOption.value = timezone;
+			element.appendChild(newOption);
+
+			if (timezone === userTimezone)
+			{
+				fromInputTzBox.value = timezone;
+			}
+
+			if (timezone === utcTimezone)
+			{
+				toInputTzBox.value = timezone;
+			}
+		}
+	}
+}
+
+const setDefaultInputDatetime = () =>
+{
+	// set user datetime to current user datetime
+	// we want the first 17 characters from moment().format():
+	// moment().format() string: "2023-02-04T00:45:56-07:00" 
+	// target string: "2023-02-04T01:42"
+	const userTimezoneElem = document.querySelector("#inputDateTime");
+	userTimezoneElem.value = moment().format().slice(0, 16);
+}
+
+const convertTimeZones = (from, to, dateTime) =>
+{
+	// use moment-t zto convert timezones and format times from from timezone  to timezone easily
+	console.log(from, to, dateTime);
+
+	// todo replace .format() string to something more readable
+	let fromDT = moment.tz(dateTime, from);
+	let toDT = fromDT.clone().tz(to); // use .format() and use a string to format as you want
+	console.log(fromDT.format(), toDT.format());
+
+	return toDT;
+}
+
+const displayDateTime = (dateTime, to) => 
+{
+	let offset = getUTCOffsetFromMomentDTInHours(dateTime);
+	let outputStr = "It is " + dateTime.format("MMMM Do, YYYY h:mm A") + " in " + to;
+	outputStr += getUTCOffsetString(offset);
+	return outputStr;
+}
+
+const getUTCOffsetString = (offset) =>
+{	
+	let baseEndStr = " UTC time).";
+
+	if (offset === 0)
+	{
+		return " (even with" + baseEndStr;
+	}
+
+	return " (" + offset + " hours " + (offset < 0 ? "behind" : "ahead of") + baseEndStr;
+}
+
+const getUTCOffsetFromMomentDTInHours = (dateTime) =>
+{
+	return (dateTime.utcOffset())/60;
 }

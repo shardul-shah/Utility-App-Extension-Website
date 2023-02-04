@@ -2,6 +2,8 @@
 <html>
   <head>
         <script src="../scripts/popup.js"></script>
+        <script src="/scripts/moment-with-locales.min.js"></script>
+        <script src="/scripts/moment-timezone-with-data.js"></script>
         <link rel="stylesheet" href="./index.css">
   </head>
   <body>
@@ -71,7 +73,6 @@
     </div>
 
     <br>
-
     <input id="IPV4Input" type="text" placeholder="0.11.222.255">
     </input>
     <button id="validateIPV4">
@@ -80,12 +81,44 @@
 
     <br>
     <br>
-
     <input id="searchInput" type="text" placeholder="weather">
     </input>
     <button id="search">
       Google Search
     </button>
+
+    <br>
+    <br>
+
+    Timezone Converter
+
+    <input type="datetime-local" id="inputDateTime" name="inputDateTime" required>
+    <br>
+    <br>
+
+    <!-- todo: find link for later -->
+    <strong>*Note:</strong> Europe/London is UTC time. For full location and time zone abbreviations, see ... (find link for later).
+    <br>
+    <strong>Your timezone:</strong> 
+    <div id="userTimezone"></div>
+
+    <br>
+    From...
+    <input list="fromTimezones" name="timezone" id="fromInputTimezone" placeholder="Type A Location">
+    <datalist id="fromTimezones">
+    </datalist>
+
+    <br>
+    <br>
+    To...
+    <input list="toTimezones" name="timezone" id="toInputTimezone" placeholder="Type A Location">
+    <datalist id="toTimezones">
+    </datalist>
+
+    <button id="convertTZ">
+      Convert
+    </button>
+
 
     <!-- todo: remove alerts, change to HTML/CSS; alerts are annoying and not the most user friendly -->
   </body>
