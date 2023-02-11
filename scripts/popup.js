@@ -17,7 +17,7 @@
 
 // Google Search [✔️]
 
-// Time Zone converter + detector [in progress]
+// Time Zone converter + detector [almost done]
 
 // Remove Duplicates From CSV/New line SV list (e.g. used for Spotify)
 
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function(event)
   	let convertedTime = convertTimeZones(from, to, time);
   	let output = displayDateTime(convertedTime, to);
   	console.log(convertedTime, output);
-
+  	document.querySelector('#timezoneOutput').innerHTML = output;
   });
 
 	document.querySelector('#listToCommas').addEventListener('click', async function(event2) 
@@ -452,18 +452,6 @@ const isIPV6Valid = (address) =>
 	return false;
 }
 
-const getUserTimezone = () => 
-{
-	// returns string
-	return Intl.DateTimeFormat().resolvedOptions().timeZone;
-}
-
-const getAllTimeZones = () => 
-{
-	// returns array of strings
-	return Intl.supportedValuesOf('timeZone');
-}
-
 const initTimezoneData = () =>
 {	
 	// init neccesary variables
@@ -515,6 +503,8 @@ const setDefaultInputDatetime = () =>
 	userTimezoneElem.value = moment().format().slice(0, 16);
 }
 
+// timezone and date time helper functions
+
 const convertTimeZones = (from, to, dateTime) =>
 {
 	// use moment-t zto convert timezones and format times from from timezone  to timezone easily
@@ -530,8 +520,10 @@ const convertTimeZones = (from, to, dateTime) =>
 
 const displayDateTime = (dateTime, to) => 
 {
+	console.log(dateTime);
 	let offset = getUTCOffsetFromMomentDTInHours(dateTime);
-	let outputStr = "It is " + dateTime.format("MMMM Do, YYYY h:mm A") + " in " + to;
+	let outputStr = "It is " + dateTime.format("MMMM Do, YYYY h:mm A") + " " + getAbbFromTimezone(dateTime)
+	+ " in " + to;
 	outputStr += getUTCOffsetString(offset);
 	return outputStr;
 }
@@ -542,7 +534,7 @@ const getUTCOffsetString = (offset) =>
 
 	if (offset === 0)
 	{
-		return " (even with" + baseEndStr;
+		return " (the same as" + baseEndStr;
 	}
 
 	return " (" + offset + " hours " + (offset < 0 ? "behind" : "ahead of") + baseEndStr;
@@ -551,4 +543,39 @@ const getUTCOffsetString = (offset) =>
 const getUTCOffsetFromMomentDTInHours = (dateTime) =>
 {
 	return (dateTime.utcOffset())/60;
+}
+
+
+const getUserTimezone = () => 
+{
+	// returns string
+	return Intl.DateTimeFormat().resolvedOptions().timeZone;
+}
+
+const getAllTimeZones = () => 
+{
+	// returns array of strings
+	return Intl.supportedValuesOf('timeZone');
+}
+
+const getUserLocalTimezoneAbb = () =>
+{
+  return new Date().toLocaleTimeString('en-us', {timeZoneName:'short'}).split(' ')[2];
+}
+
+const getAbbFromTimezone = (time) =>
+{
+	// time should be moment type
+  return time.zoneAbbr();  
+}
+
+const formatDateTimeForLocalTimezone = (dateTime) =>
+{
+  if (dateTime == null)
+  {
+    return "";
+  }
+
+  return dateTime.tz(this.getUserLocalTimeZone()).format("MMMM Do, YYYY h:mm A") 
+  + " " + this.getUserLocalTimezoneAbb();
 }
