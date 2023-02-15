@@ -18,8 +18,9 @@
 // Google Search [✔️]
 
 // Time Zone converter + detector [almost done]
+// possible todo: show timezone abbrievation beside input box for to/from (for better UI, then pretty much done)
 
-// Remove Duplicates From CSV/New line SV list (e.g. used for Spotify)
+// Remove Duplicates From CSV/New line SV list (e.g. ussed for Spotify)
 
 // Hard To Do/Will Take More Thinking/Time/Etc.:
 
@@ -37,10 +38,56 @@ document.addEventListener('DOMContentLoaded', function(event)
 {
 	initTimezoneData();
 
+	document.querySelector('#fromInputTimezone').addEventListener('input', async function(event2) 
+	{
+		let childNodes = document.querySelector('#fromTimezones').childNodes;
+		let from = validateAndGetInput("fromInputTimezone", "Please ensure a valid from timezone is selected.", false);
+		let fromInputTzAbb = document.querySelector("#fromTZAbb");
+		let tzAbbSet = false;
+		
+		// let toInputTzAbb = document.querySelector("#toTZAbb");
+
+		for (let i = 0; i<childNodes.length; i++)
+		{
+			if (from === childNodes[i].value)
+			{
+				tzAbbSet = true;
+				fromInputTzAbb.innerHTML = getAbbFromTimezone(moment.tz(moment(), from));
+			}
+		}
+
+		if (!tzAbbSet)
+		{
+			fromInputTzAbb.innerHTML = "";					
+		}	
+	});
+
+	document.querySelector('#toInputTimezone').addEventListener('input', async function(event2) 
+	{
+		let childNodes = document.querySelector('#toTimezones').childNodes;
+		let from = validateAndGetInput("toInputTimezone", "Please ensure a valid from timezone is selected.", false);
+		let toInputTzAbb = document.querySelector("#toTZAbb");
+		let tzAbbSet = false;
+		
+		// let toInputTzAbb = document.querySelector("#toTZAbb");
+
+		for (let i = 0; i<childNodes.length; i++)
+		{
+			if (from === childNodes[i].value)
+			{
+				tzAbbSet = true;
+				toInputTzAbb.innerHTML = getAbbFromTimezone(moment.tz(moment(), from));
+			}
+		}		
+
+		if (!tzAbbSet)
+		{
+			toInputTzAbb.innerHTML = "";					
+		}
+	});
+
 	document.querySelector('#convertTZ').addEventListener('click', async function(event2) 
   {
-  	// error handling here : ...
-
   	let from = validateAndGetInput("fromInputTimezone", "Please ensure a valid from timezone is selected.");
   	let to = validateAndGetInput("toInputTimezone", "Please ensure a valid to timezone is selected.");
   	let time = validateAndGetInput("inputDateTime", "Please ensure a valid to timezone is selected.");
@@ -424,11 +471,11 @@ const searchInternet = async (input) =>
 	window.open("http://google.com/search?q=" + input);
 }
 
-const validateAndGetInput = (inputId, errMsg) =>
+const validateAndGetInput = (inputId, errMsg, alertUserOnMissingData = true) =>
 {
 	let input = document.querySelector("#" + inputId).value;
 	console.log(input);
-	if (input == null || input == "")
+	if (alertUserOnMissingData && (input == null || input == ""))
 	{
   	alert(errMsg);
   	return;
@@ -461,6 +508,9 @@ const initTimezoneData = () =>
 	let listElements = [];
 	let fromInputTzBox = document.querySelector("#fromInputTimezone");
 	let toInputTzBox = document.querySelector("#toInputTimezone");
+	let fromInputTzAbb = document.querySelector("#fromTZAbb");
+	let toInputTzAbb = document.querySelector("#toTZAbb");
+
 	listElements.push(document.querySelector('#fromTimezones'));
 	listElements.push(document.querySelector('#toTimezones'));
 
@@ -483,11 +533,13 @@ const initTimezoneData = () =>
 			if (timezone === userTimezone)
 			{
 				fromInputTzBox.value = timezone;
+				fromInputTzAbb.innerHTML = getAbbFromTimezone(moment.tz(moment(), timezone));
 			}
 
 			if (timezone === utcTimezone)
 			{
 				toInputTzBox.value = timezone;
+				toInputTzAbb.innerHTML = getAbbFromTimezone(moment.tz(moment(), timezone));
 			}
 		}
 	}
@@ -522,8 +574,10 @@ const displayDateTime = (dateTime, to) =>
 {
 	console.log(dateTime);
 	let offset = getUTCOffsetFromMomentDTInHours(dateTime);
-	let outputStr = "It is " + dateTime.format("MMMM Do, YYYY h:mm A") + " " + getAbbFromTimezone(dateTime)
-	+ " in " + to;
+	let abb = getAbbFromTimezone(dateTime, true);
+	let spaceNeeded = abb !== "";
+	let outputStr = "It is " + dateTime.format("MMMM Do, YYYY h:mm A") + (spaceNeeded ? " " : "") +
+	getAbbFromTimezone(dateTime, true) + " in " + to;
 	outputStr += getUTCOffsetString(offset);
 	return outputStr;
 }
@@ -563,10 +617,11 @@ const getUserLocalTimezoneAbb = () =>
   return new Date().toLocaleTimeString('en-us', {timeZoneName:'short'}).split(' ')[2];
 }
 
-const getAbbFromTimezone = (time) =>
+const getAbbFromTimezone = (time, onlyShowStringAbb = false) =>
 {
 	// time should be moment type
-  return time.zoneAbbr();  
+	let abb = time.zoneAbbr();
+	return onlyShowStringAbb ? (isNaN(abb) ? abb : "") : abb;
 }
 
 const formatDateTimeForLocalTimezone = (dateTime) =>
