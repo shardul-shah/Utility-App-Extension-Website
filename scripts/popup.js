@@ -17,10 +17,11 @@
 
 // Google Search [✔️]
 
-// Time Zone converter + detector [almost done]
-// possible todo: show timezone abbrievation beside input box for to/from (for better UI, then pretty much done)
+// Time Zone converter + detectors [✔️]
 
-// Remove Duplicates From CSV/New line SV list (e.g. ussed for Spotify)
+// Remove Duplicates From CSV/New line SV list (e.g. used for Spotify) [✔️]
+
+// Dark Mode on UI
 
 // Hard To Do/Will Take More Thinking/Time/Etc.:
 
@@ -36,7 +37,7 @@
 // Triggers when all DOM elements are loaded
 document.addEventListener('DOMContentLoaded', function(event) 
 {
-	initTimezoneData();
+	initTimezoneData()
 
 	document.querySelector('#fromInputTimezone').addEventListener('input', async function(event2) 
 	{
@@ -99,10 +100,19 @@ document.addEventListener('DOMContentLoaded', function(event)
 
 	document.querySelector('#listToCommas').addEventListener('click', async function(event2) 
   {
-  	let list = validateAndGetInput("listInput", "Please enter a space or newline separated list to continue.");
+  	let list = validateAndGetInput("listInput", "Please enter a space or newline (or both) separated list to continue.");
   	if (list != null)
   	{
   		await convert(list);
+  	}
+  });
+
+	document.querySelector('#removeDuplicates').addEventListener('click', async function(event2) 
+  {
+  	let list = validateAndGetInput("removeDuplicatesInput", "Please enter a space or newline (or both) separated list to continue.");
+  	if (list != null)
+  	{
+  		await removeDuplicates(list);
   	}
   });
 
@@ -225,6 +235,7 @@ const copyAndNotify = async (output, outputMsg) =>
 const convert = async (list) => 
 {	
 	console.log(list);
+	// future TODO maybe: if multiple spaces/newlines in a row, don't separate by comma, just ignore those until another charcter type is matched
 
 	let output = "";
 	let counter = 1;
@@ -460,7 +471,14 @@ const isIPV4Valid = (address) =>
 const countWords = (words, exclusionMaxLen = 0) =>
 {
 	// possible TODO: return # of characters too from this function, and display
+
+	// split words by whitespace
 	let wordsArr = words.split(/\s+/);
+
+	// possible TODO: decide if this is needed or not; if it is, use it (probably not needed on my current conclusion)
+	// remove punctuation
+	let allPunctuation = "!\"#$%&'()*+, -./:;<=>?@[\]^_`{|}~"; // reference
+
 	console.log(wordsArr);
 	return (wordsArr.filter(word => word.length > exclusionMaxLen)).length;
 }
@@ -484,12 +502,33 @@ const validateAndGetInput = (inputId, errMsg, alertUserOnMissingData = true) =>
   return input;
 }
 
-const removeDuplicates = () =>
+const removeDuplicates = async (input) =>
 {
-	// TODO: code here
+	// future TODO maybe: if multiple spaces/newlines in a row, don't count it as an element,
+	// just ignore it until another charcter type is matched
 
-	return "";
+	// useful for many things
+	// e.g. for removing duplicates from Spotify
 
+	let output = "";
+	input = input.replaceAll(" ", "\n"); // convert every space separated entry to new line separated entry
+	let inputArr = input.split("\n");
+	let outputArr = Array.from(new Set(inputArr));
+	outputArr.forEach(line => output+=line+="\n");
+	inputArr.length
+	console.log(output);
+	console.log("Input: " , inputArr.length, "\nOutput: ", outputArr.length);
+	let inputListOutput = "The input has " + inputArr.length + " " + (inputArr.length === 1 ? "item." : "items.");
+	let outputListOutput = "The output has " + outputArr.length + " " + (outputArr.length === 1 ? "item." : "items.");
+
+	await copyAndNotify(output, "Copied!");
+	let outputListDiv = document.querySelector('#outputListLength');
+	outputListDiv.innerHTML = outputListOutput;
+	let inputListDiv = document.querySelector('#inputListLength');
+	inputListDiv.innerHTML = inputListOutput;
+	let endOfSectionBr = document.querySelector('#endOfRemoveDuplicatesBr');
+	endOfSectionBr.style.display = "initial";
+	return;
 }
 
 const isIPV6Valid = (address) => 
@@ -498,6 +537,7 @@ const isIPV6Valid = (address) =>
 
 	return false;
 }
+
 
 const initTimezoneData = () =>
 {	
