@@ -13,3 +13,86 @@
 {
 	display: none;
 }
+
+.switch 
+{
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 15px;
+}
+
+/* Completely hides default HTML checkbox */
+.switch input 
+{
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/*Slider part of design */
+.sliderDarkMode 
+{
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(204, 204, 204, 1);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+/*This is the circular "thumb" of the slider */
+.sliderDarkMode:before 
+{
+  position: absolute;
+  content: "";
+  height: 12.5px;
+  width: 12.5px;
+  left: 4px;
+  bottom: 1.5px;
+  background-color: rgba(0, 0, 0, 1);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+/* CSS for the slider if and only if Input is checked (i.e. dark mode is selected) */
+input:checked + .sliderDarkMode 
+{
+  background-color: rgba(255, 255, 0, 1);
+}
+
+/* CSS for the slider if and only if Input is in focus (i.e. dark mode is selected) */
+input:focus + .sliderDarkMode 
+{
+  box-shadow: 0 0 5px rgba(255, 255, 0, 1);
+}
+
+/* CSS for the slider "thumb" if and only if Input is in focus (i.e. dark mode is selected) */
+input:checked + .sliderDarkMode:before 
+{
+  -webkit-transform: translateX(11px);
+  -ms-transform: translateX(11px);
+  transform: translateX(11px);
+}
+
+/* CSS for the round dark mode slider */
+.sliderDarkMode.round 
+{
+  border-radius: 16px;
+}
+
+/* CSS for the round dark mode slider thumb */
+.sliderDarkMode.round:before 
+{
+  border-radius: 50%;
+}
+
+.dark_mode_bg 
+{
+	background-color: rgba(0, 0, 0, 1);
+	animation: none;
+	-webkit-animation: none;
+}

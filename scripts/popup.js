@@ -21,7 +21,9 @@
 
 // Remove Duplicates From CSV/New line SV list (e.g. used for Spotify) [✔️]
 
-// Dark Mode on UI
+// Dark Mode on UI [✔️]
+
+// Clean up UI/make small improvements/enhancements before pushing
 
 // Hard To Do/Will Take More Thinking/Time/Etc.:
 
@@ -37,7 +39,14 @@
 // Triggers when all DOM elements are loaded
 document.addEventListener('DOMContentLoaded', function(event) 
 {
-	initTimezoneData()
+	document.querySelector('#darkModeToggle').addEventListener('click', function (event2)
+	{
+		var body = document.body;
+		toggleDarkMode(body.classList.toggle("dark_mode_bg"));
+		console.log('Dark mode toggled...');
+	});
+
+	initTimezoneData();
 
 	document.querySelector('#fromInputTimezone').addEventListener('input', async function(event2) 
 	{
@@ -224,6 +233,25 @@ document.addEventListener('DOMContentLoaded', function(event)
   	}
   });
 });
+
+const toggleDarkMode = (isDarkModeOn) =>
+{
+	// get all relevant classes here, and dynamically turn them black/white
+
+	let relevantClasses = ["darkModeText"];
+	for (let relClass of relevantClasses)
+	{
+		console.log(relClass);
+		console.log(isDarkModeOn);
+		let foundClasses = document.querySelectorAll("."+relClass);
+		console.log(foundClasses);
+		for (foundClass of foundClasses)
+		{
+			// turn everything needed black/white (e.g. text)
+			foundClass.style.color = isDarkModeOn ? "rgba(255, 255, 255, 1)" : "rgba(0, 0, 0, 1)";
+		}
+	}
+}
 
 const copyAndNotify = async (output, outputMsg) => 
 {
