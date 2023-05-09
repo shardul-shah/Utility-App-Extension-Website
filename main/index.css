@@ -1,4 +1,4 @@
-#inputListLength, #outputListLength, #wordCountOutput
+#inputListLength, #outputListLength, #wordCountOutput, #randomSINOutput
 {
 	color: red;
 	font-size: 1.5em;
@@ -95,4 +95,21 @@ input:checked + .sliderDarkMode:before
 	background-color: rgba(0, 0, 0, 1);
 	animation: none;
 	-webkit-animation: none;
+}
+
+.customLink
+{
+  font-weight: bold;
+}
+
+.customLink:hover
+{
+  font-size: 125%;
+  font-weight: bolder;
+  color: red;
+}
+
+#timezoneInfo
+{
+  max-width: 14em;
 }

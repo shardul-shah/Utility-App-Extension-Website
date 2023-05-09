@@ -62,18 +62,18 @@
     <input id="desiredLenInput" style="white-space: pre-wrap;" type="text" placeholder="20">
 
     <br>
-    <form id="genRandomStrForm">
+    <form id="genRandomStrForm" class="darkModeText">
       <input type="checkbox" id="symbols" name="symbols" value="symbols">
-      <label for="symbols" class="darkModeText"> Exclude Symbols</label>
+      <label for="symbols"> Exclude Symbols</label>
       <br>
       <input type="checkbox" id="numbers" name="numbers" value="numbers">
-      <label for="numbers" class="darkModeText"> Exclude Numbers</label>
+      <label for="numbers"> Exclude Numbers</label>
       <br>
       <input type="checkbox" id="upperLetters" name="uppercase letters" value="upperLetters">
-      <label for="letters" class="darkModeText"> Exclude Uppercase Letters</label>
+      <label for="letters"> Exclude Uppercase Letters</label>
       <br>
       <input type="checkbox" id="lowerLetters" name="lowercase letters" value="lowerLetters">
-      <label for="letters" class="darkModeText"> Exclude Lowercase Letters</label>
+      <label for="letters"> Exclude Lowercase Letters</label>
     </form>
 
     <br>
@@ -89,7 +89,9 @@
       Generate Random SIN
     </button>
 
-    <br>
+    <div id="randomSINOutput">
+    </div>
+
     <br>
 
     <button id="generateRandomColor">
@@ -115,9 +117,10 @@
     </button>
 
     <br>
-    <br>
 
+    <h3 class="darkModeText" style="margin-bottom: auto;">
     Timezone Converter
+    </h3>
 
     <input type="datetime-local" id="inputDateTime" name="inputDateTime" required>
     <br>
@@ -125,7 +128,10 @@
 
     <!-- todo: find link for later -->
     <div class="darkModeText">
-      <strong>*Note:</strong> Europe/London is UTC time. For full location and time zone abbreviations, see ... (find link for later).
+      <div id="timezoneInfo">
+        <strong>*Note:</strong> America/Danmarkshavn is always GMT/UTC time, regardless of Daylight Saving Time (DST), hence picked by default below. For full location and time zone abbreviations, see 
+        <a class="customLink" href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank">this link</a>.
+      </div>
       <br>
       <strong>Your timezone:</strong> 
       <div id="userTimezone"></div>
@@ -152,10 +158,7 @@
     </button>
 
     <br>
-    <div id="timezoneOutput"></div>
-
-
-
-    <!-- todo: remove alerts, change to HTML/CSS; alerts are annoying and not the most user friendly -->
+    <div id="timezoneOutput" class="darkModeText">
+    </div>
   </body>
 </html>
