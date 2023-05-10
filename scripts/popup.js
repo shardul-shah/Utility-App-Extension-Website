@@ -31,11 +31,13 @@
 
 // Fix broken wiki link for timezones info [✔️]
 
-// Remove alerts, change to HTML/CSS; alerts are annoying and not the most user friendly
+// Remove alerts, change to HTML/CSS; alerts are annoying and not the most user friendly [✔️]
 
-// Clean up UI/make small improvements/enhancements before pushing
+// Clean up UI/make small improvements/enhancements before pushing (e.g. put hex color code in color box) [✔️]
 
-// Fix vTools failed to load source map: Could not load content for chrome-extension://mobofkhebjfbhfidipgacfiamoplighl/scripts/moment-with-locales.min.js.map: System error: net::ERR_FILE_NOT_FOUND error in console
+// Add Contact info / more about you at the bottom of the extension (like on Serenity application)
+
+// Maybe fix vTools failed to load source map: Could not load content for chrome-extension://mobofkhebjfbhfidipgacfiamoplighl/scripts/moment-with-locales.min.js.map: System error: net::ERR_FILE_NOT_FOUND error in console
 
 
 // Hard To Do/Will Take More Thinking/Time/Etc.:
@@ -47,6 +49,8 @@
 // IPV6 validator/generator 
 
 // Weather 
+
+// Part 2: Remove alerts, change to HTML/CSS; alerts are annoying and not the most user friendly - is this even needed? What should the alerts be replaced with? Should alerts and text output BOTH be kept? "Copied" message? Investigate.
 
 
 // Triggers when all DOM elements are loaded
@@ -180,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function(event)
   	const generatedStr = 
   	(desiredLength == "" || desiredLength == null ? generateRandomString(exclusions) : generateRandomString(exclusions, desiredLength));
 
-   	copyAndNotify(generatedStr, "Random string generated and copied! String: " + generatedStr);
+   	copyAndNotify(generatedStr, "Random string generated and copied:\n\n" + generatedStr);
    });
 
   document.querySelector('#validateSIN').addEventListener('click', function(event2) 
@@ -205,8 +209,11 @@ document.addEventListener('DOMContentLoaded', function(event)
    document.querySelector('#generateRandomColor').addEventListener('click', async function(event2) 
   {
   	const hexCode = generateRandomHexCode();
-  	document.querySelector('#randomColor').style.backgroundColor = hexCode;
-  	document.querySelector('#randomColor').style.height = "3em";
+  	let randomColorDiv = document.querySelector('#randomColor');
+  	let randomColorTextDiv = document.querySelector('#randomColorText');
+  	randomColorDiv.style.backgroundColor = hexCode;
+  	randomColorDiv.style.height = "3em";
+  	randomColorTextDiv.innerHTML = hexCode;
   	await copyAndNotify(hexCode, "Random colour's hex code generated and copied! Code: " + hexCode);
   });
 
