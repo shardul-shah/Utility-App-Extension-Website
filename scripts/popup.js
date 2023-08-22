@@ -35,7 +35,7 @@
 
 // Clean up UI/make small improvements/enhancements before pushing (e.g. put hex color code in color box) [✔️]
 
-// Add Contact info / more about you at the bottom of the extension (like on Serenity application)
+// Add Contact info + Linkedin / more about you at the bottom of the extension (like on Serenity application) https://github.com/shardul-shah/Serenity/blob/master/index.html
 
 // Maybe fix vTools failed to load source map: Could not load content for chrome-extension://mobofkhebjfbhfidipgacfiamoplighl/scripts/moment-with-locales.min.js.map: System error: net::ERR_FILE_NOT_FOUND error in console
 
